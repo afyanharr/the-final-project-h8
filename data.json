@@ -1,0 +1,191 @@
+{
+    "services" : {
+        "status": "Success",
+        "code": 200,
+        "message": "Success",
+        "data": [
+            {
+                "id": 1,
+                "name": "Service 1",
+                "typeId": 2,
+                "type": {
+                    "id": 1,
+                    "name": "Lorem"
+                },
+                "description": "Lorem Ipsum",
+                "rating": 4.5,
+                "address": "Jl. something",
+                "phoneNumber": "271812312",
+                "createdAt": null,
+                "updatedAt": null,
+                "deletedAt": null,
+                "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg"
+            },
+            {
+                "id": 2,
+                "name": "Service 2",
+                "typeId": 3,
+                "type": {
+                    "id": 2,
+                    "name": "Lorem"
+                },
+                "description": "lorem ipsum",
+                "rating": 4.5,
+                "address": "Jl. something",
+                "phoneNumber": "271812312",
+                "createdAt": null,
+                "updatedAt": null,
+                "deletedAt": null,
+                "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg"
+            },
+            {
+                "id": 3,
+                "name": "service 3",
+                "typeId": 4,
+                "type": {
+                    "id": 3,
+                    "name": "Lorem"
+                },
+                "description": "lorem ipsum",
+                "rating": 4.5,
+                "address": "Jl. something",
+                "phoneNumber": "271812312",
+                "createdAt": null,
+                "updatedAt": null,
+                "deletedAt": null,
+                "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg"
+            },
+            {
+                "id": 4,
+                "name": "service 4",
+                "typeId": 4,
+                "type": {
+                    "id": 3,
+                    "name": "Lorem"
+                },
+                "description": "lorem ipsum",
+                "rating": 4.5,
+                "address": "Jl. something",
+                "phoneNumber": "271812312",
+                "createdAt": null,
+                "updatedAt": null,
+                "deletedAt": null,
+                "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg"
+            },
+            {
+                "id": 5,
+                "name": "service 5",
+                "typeId": 4,
+                "type": {
+                    "id": 3,
+                    "name": "Lorem"
+                },
+                "description": "lorem ipsum",
+                "rating": 4.5,
+                "address": "Jl. something",
+                "phoneNumber": "271812312",
+                "createdAt": null,
+                "updatedAt": null,
+                "deletedAt": null,
+                "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg"
+            },
+            {
+                "id": 6,
+                "name": "service 6",
+                "typeId": 4,
+                "type": {
+                    "id": 3,
+                    "name": "Lorem"
+                },
+                "description": "lorem ipsum",
+                "rating": 4.5,
+                "address": "Jl. something",
+                "phoneNumber": "271812312",
+                "createdAt": null,
+                "updatedAt": null,
+                "deletedAt": null,
+                "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg"
+            },
+            {
+                "id": 7,
+                "name": "service 7",
+                "typeId": 4,
+                "type": {
+                    "id": 3,
+                    "name": "Lorem"
+                },
+                "description": "lorem ipsum",
+                "rating": 4.5,
+                "address": "Jl. something",
+                "phoneNumber": "271812312",
+                "createdAt": null,
+                "updatedAt": null,
+                "deletedAt": null,
+                "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg"
+            },
+            {
+                "id": 8,
+                "name": "service 8",
+                "typeId": 4,
+                "type": {
+                    "id": 3,
+                    "name": "Lorem"
+                },
+                "description": "lorem ipsum",
+                "rating": 4.5,
+                "address": "Jl. something",
+                "phoneNumber": "271812312",
+                "createdAt": null,
+                "updatedAt": null,
+                "deletedAt": null,
+                "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg"
+            }
+        ]
+    },
+    "serviceDetail" : {
+        "id": 1,
+        "name": "Service 1",
+        "type": {
+            "id": 1,
+            "name": "Lorem"
+        },
+        "description": "Lorem ipsum",
+        "rating": 4.5,
+        "address": "Jl. something",
+        "phoneNumber": "271812312",
+        "created_at": null,
+        "updated_at": null,
+        "deleted_at": null,
+        "image": "https://candratama.com/wp-content/uploads/2020/02/desain-interior-apotek-kediri-minimalus-klasik-custom.jpg",
+        "reviews": [
+            {
+            "id": 1,
+            "user": {
+                "id": 1,
+                "name": "Mamang Jefri",
+                "email": "user@mail.com"
+            },
+            "serviceId": 1,
+            "rating": 4.5,
+            "description": "Pelayanan yang sangat ramah",
+            "createdAt": "2024-05-08T17:37:40.025Z",
+            "updatedAt": "2024-05-08T17:37:40.025Z",
+            "deletedAt": "2024-05-08T17:37:40.025Z"
+            },
+            {
+                "id": 2,
+                "user": {
+                    "id": 1,
+                    "name": "Asep Sunandar",
+                    "email": "user@mail.com"
+                },
+                "serviceId": 1,
+                "rating": 4.5,
+                "description": "Harganya sangat merakyat",
+                "createdAt": "2024-05-08T17:37:40.025Z",
+                "updatedAt": "2024-05-08T17:37:40.025Z",
+                "deletedAt": "2024-05-08T17:37:40.025Z"
+                }
+        ]
+    }
+}
