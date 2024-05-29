@@ -8,13 +8,14 @@
     "build": "vite build",
     "preview": "vite preview",
     "serve": "vue-cli-service serve",
-    "json-server": "json-server --watch data.json",
-    "start": "npm-run-all --parallel json-server dev"
+    "json-server": "json-server --watch data.json"
   },
   "dependencies": {
+    "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "pinia": "^2.1.7",
+    "sweetalert2": "^11.11.0",
     "vue": "^3.4.21",
     "vue-router": "^4.0.13"
   },

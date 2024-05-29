@@ -1,5 +1,18 @@
 <script setup>
 import NavbarAuth from '../components/NavbarAuth.vue';
+import { useHistoryStore } from '../stores/history';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter
+const getAPIHistory = useHistoryStore();
+const getId = localStorage.getItem('userId')
+const reviews = ref({});
+async function fetchData() {
+    reviews.value = await getAPIHistory.getReviews(getId)
+};
+onMounted(async () => {
+    await fetchData();
+});
 </script>
 
 <template>
@@ -7,30 +20,21 @@ import NavbarAuth from '../components/NavbarAuth.vue';
     <div class="container-fluid">
         <div class="container">
             <h4 class="d-flex justify-content-center mt-5">Riwayat ulasanmu ada disini</h4>
-            <div class="card mt-5">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
+            <div class="row" v-if="reviews.id">
+                <div class="col-md-4"  v-for="listReviews in reviews.reviews" :key="listReviews.id">
+                    <div class="card mt-5 p-1 history-card">
+                        <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" class="mt-3" style ="width: 100px; height: 80px; border-radius: 50%; object-fit: cover;">
-                                </div>
-                                <div class="col-md-9">
-                                    <h5 class="card-title">John Doe</h5>
-                                    <i class="bi bi-star-fill"></i>
-                                    <p class="card-text">Tempat yang sangat bersih</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-8 mt-4 pt-1">
-                                    <p class="text-end">Apotik Surya</p>
-                                </div>
-                                <div class="col-md-4 mt-4">
-                                    <router-link :to="{ name: 'Detail' }" tag="button" class="btn btn-primary main-color">
-                                        Lihat
-                                    </router-link>
+                                <div class="row">
+                                    <div class="" >
+                                        <p class="card-text">Anda berkomentar pada apotik surya</p>
+                                        <i class="bi bi-star-fill stars-text"></i>
+                                        <p class="card-text">{{ listReviews.description }}</p>
+                                        <p class="card-text">Anda berkomentar pada apotik surya</p>
+                                        <router-link :to="{ name: 'Detail' , params : {id : listReviews.service.id }}" tag="nav-link" class="nav-link active d-flex justify-content-end">
+                                            lihat
+                                        </router-link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -51,4 +55,23 @@ import NavbarAuth from '../components/NavbarAuth.vue';
 .main-color {
     background-color: #10A8E5;
 }
+
+.history-card {
+    padding: 50px;
+    transition: transform .1s;
+    margin: 0 auto;
+}
+
+.history-card:hover {
+    transform: scale(1.01);
+    color: #10A8E5;
+    border-color: #10A8E5;
+    background-color: #10A8E5;
+    color: white !important;
+    font-weight: bold;
+}
+
+
 </style>
+
+

@@ -23,12 +23,12 @@ const routes = [
         component: () => import('../view/HomePage.vue')
     },
     {
-        path: '/detail',
+        path: '/services/:id',
         name: 'Detail',
         component: () => import('../view/DetailPage.vue')
     },
     {
-        path: '/history',
+        path: '/users/:id/reviews',
         name: 'History',
         component: () => import('../view/HistoryPage.vue')
     },
@@ -38,5 +38,13 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+router.beforeEach((to, from, next) =>  {
+    const isAuthenticated = JSON.parse(localStorage.getItem('authenticated'))
+    // if (to.name !== 'Login' && !isAuthenticated) next({name: 'Login', name: 'Register'})
+    if (to.name === 'Login' && isAuthenticated) next({name: 'Services'})
+    else next();
+});
+
 
 export default router

@@ -1,9 +1,6 @@
 <script setup>
 import { RouterView, RouterLink, useRoute } from 'vue-router'
 const route = useRoute()
-const tempFunction = (params) => {
-  return params
-}
 </script>
 
 <template>
