@@ -28,7 +28,8 @@ const login = async () => {
             Swal.fire({
                 title: "Berhasil Login",
                 text: response.message,
-                icon: "success"
+                icon: "success",
+                timer: 2000
             });
             router.push({name: 'Services'})
         }
@@ -38,13 +39,15 @@ const login = async () => {
             Swal.fire({
                 title: 'Email belum terdaftar',
                 text: error.response.data.message,
-                icon: "error"
+                icon: "error",
+                timer: 2000
             })
         } else if (error.response.data.code == 400) {
             Swal.fire({
                 title: 'Username atau password salah',
                 text: error.response.data.message,
-                icon: "error"
+                icon: "error",
+                timer: 2000
             })
         }
     }

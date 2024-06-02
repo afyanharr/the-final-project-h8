@@ -39,11 +39,32 @@ const router = createRouter({
     routes
 })
 
+// router.beforeEach((to, from, next) =>  {
+//     const isAuthenticated = JSON.parse(localStorage.getItem('authenticated'))
+//     // if (to.name !== 'Login' && !isAuthenticated) next({name: 'Login', name: 'Register'})
+//     if (to.name === 'Login' && isAuthenticated) { 
+//         next({name: 'Services'}) 
+//     } else if {
+
+//     } else next();
+// });
+
 router.beforeEach((to, from, next) =>  {
-    const isAuthenticated = JSON.parse(localStorage.getItem('authenticated'))
-    // if (to.name !== 'Login' && !isAuthenticated) next({name: 'Login', name: 'Register'})
-    if (to.name === 'Login' && isAuthenticated) next({name: 'Services'})
-    else next();
+    // const isAuthenticated = JSON.parse(localStorage.getItem('token'));
+    const isAuthenticated = localStorage.getItem('token');
+    if (to.name === 'Login' && isAuthenticated) {
+        next({name: 'Services'});
+    } else if (to.name === 'History' && !isAuthenticated) {
+        next({name: 'Login'});
+    } else if (to.name === 'Detail' && !isAuthenticated) {
+        next({name: 'Detail'});
+    } else if (to.name === 'History' && !isAuthenticated) {
+        next({name: 'Login'});
+    } else if (to.name === 'History' && !isAuthenticated) {
+        next({name: 'Login'});
+    } else {
+        next();
+    }
 });
 
 

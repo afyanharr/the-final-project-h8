@@ -11,11 +11,10 @@ const props = defineProps({
             <div class="card-body">
                 <div class="row">
                     <div class="row">
-                        <div class="" >
-                            <p class="card-text">Anda berkomentar pada apotik surya</p>
+                        <div class="">
+                            <p class="card-text">Anda berkomentar pada {{ listReviews.service.name }}</p>
                             <i class="bi bi-star-fill stars-text"></i>
                             <p class="card-text">{{ listReviews.description }}</p>
-                            <p class="card-text">Anda berkomentar pada apotik surya</p>
                             <router-link :to="{ name: 'Detail' , params : {id : listReviews.service.id }}" tag="nav-link" class="nav-link active d-flex justify-content-end">
                                 lihat
                             </router-link>

@@ -6,7 +6,7 @@ import FormSection from '../components/FormSection.vue';
 import ReviewSection from '../components/ReviewSection.vue';
 import { useStoreAPI } from '../stores/index';
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'; 
+import { routerKey, useRoute, useRouter } from 'vue-router'; 
 import { useHistoryStore } from '../stores/history';
 import Swal from 'sweetalert2'
 
@@ -14,8 +14,10 @@ const getAPIService = useStoreAPI();
 const useHistoryAPI = useHistoryStore();
 const servicesDetail = ref({});
 const route = useRoute()
+const router = useRouter()
 const errorMessage = ref(null)
 const getUserId = localStorage.getItem('userId')
+const alertFlagging = ref(true)
 
 const starsPreReview = ref([
     { 
@@ -48,6 +50,14 @@ const reviewDataInit = ref({
 
 const submitReview = async (data) => {
     try {
+        if(!getUserId) {
+            Swal.fire({
+                title: "Kamu belum login?",
+                text: "Login dulu yuk untuk berkomentar",
+                icon: "question"
+            });
+            router.push({name: 'Login'})
+        }
         reviewDataInit.value.rating =  data.value.rating
         reviewDataInit.value.description = data.value.description
         const payload = {
@@ -63,6 +73,12 @@ const submitReview = async (data) => {
                 text: response.message,
                 icon: "success"
             });
+        } else {
+            Swal.fire({
+                title: "Terjadi kesalahan",
+                text: response.message,
+                icon: "error"
+            });
         }
     } catch (error) {
         console.log(error)
@@ -73,7 +89,7 @@ async function fetchData() {
     try {
         servicesDetail.value = await getAPIService.getServicesDetailData(route.params.id)
     } catch (error) {
-        errorMessage.value = error
+        errorMessage.value = 'Service Tidak ditemukan'
     }
 };
 
@@ -92,27 +108,24 @@ onMounted(async () => {
     <div class ="row mt-5" >
         <div class="col-md-6">
             <div class="row">
-                <img src="https://www.apotek-k24.com/images/post/16777494720230211014631yunita.isnaciri-ciri%20pengusaha%20yang%20berhasil.jpg.webp" alt="image dummy" style ="width: 650px;">
+                <img src="https://www.apotek-k24.com/images/post/16777494720230211014631yunita.isnaciri-ciri%20pengusaha%20yang%20berhasil.jpg.webp" alt="image dummy" id="main-image" class="ps-3 pe-3">
             </div>
-            <div class="row d-flex justify-content-evenly">
-                <div class="col-md-3 p-3">
-                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" style ="width: 150px;">
+            <div class="row justify-content-around ps-2 pe-">
+                <div class="col-md-3 ps-0 pe-0 pt-3 pb-0 d-flex justify-content-center">
+                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" class="child-image d-flex justify-content-center">
                 </div>
-                <div class="col-md-3 p-3">
-                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" style ="width: 150px;">
+                <div class="col-md-3 ps-0 pe-0 pt-3 pb-0 d-flex justify-content-center">
+                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" class="child-image d-flex justify-content-center">
                 </div>
-                <div class="col-md-3 p-3">
-                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" style ="width: 150px;">
+                <div class="col-md-3 ps-0 pe-0 pt-3 pb-0 d-flex justify-content-center">
+                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" class="child-image d-flex justify-content-center">
                 </div>
             </div>
         </div>
-        <InformationSection :services-detail="servicesDetail" />
+        <InformationSection :services-detail="servicesDetail.data" />
     </div>
     <div class="row mt-5">
         <div class="col-md-6">
-            <div class="row">
-                <h5>Berikan Ulasanmu</h5>
-            </div>
             <FormSection 
                 :starsPreReview="starsPreReview"
                 @catchDescAndRating="submitReview"
@@ -120,8 +133,9 @@ onMounted(async () => {
         </div>
     </div>
     <ReviewSection 
-        :services-detail="servicesDetail"
+        :services-detail="servicesDetail.data"
         :starsPreReview="starsPreReview"
+        :serviceId="servicesDetail.data"
     />
     <div class="row mt-5">
         <div class="container">
@@ -187,6 +201,27 @@ onMounted(async () => {
 .delete-comment:hover {
     font-weight: 600;
     cursor: pointer;
+}
+
+/* #main-image {
+    border-radius: 20px;
+} */
+
+.child-image {
+    width: 180px;
+    height: auto;
+}
+
+@media (max-width: 576px) {
+    .child-image {
+        width: 50px;
+        height: auto;
+    }
+    .child-image {
+        width: 220px;
+        height: auto;
+    }
+
 }
 </style>
 

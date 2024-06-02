@@ -2,6 +2,7 @@ import {ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import serviceValidation from '../services/serviceValidations'
 import { useRoute } from 'vue-router'
+import axios from 'axios';
 const route = useRoute()
 
 export const useStoreAPI = defineStore('getAPIService', () => {
@@ -9,12 +10,22 @@ export const useStoreAPI = defineStore('getAPIService', () => {
     const servicesDetail = ref(null)
     const reviews = ref(null)
 
-    async function getServicesData() {
+    async function getServicesData(tempQuery) {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/services`);
-            // const response =  await fetch('data.json').then(response => response.json());
-            const data = await response.json();
-            services.value = data;
+            let url = 'http://localhost:3000/api/v1/services'
+            if (tempQuery){
+                const reqQuery = new URLSearchParams(tempQuery).toString();
+                url += `?${reqQuery}`
+            } else {
+                const reqQueryDeafult = new URLSearchParams({
+                    page: 1,
+                    show: 12
+                }).toString()
+                url += `?${reqQueryDeafult}`
+            }
+
+            const response = await axios.get(url);
+            const data = response.data
             return data
         } catch (error) {
             const errorMessageFunction = serviceValidation.getErrorMessage(error.message)
@@ -23,31 +34,28 @@ export const useStoreAPI = defineStore('getAPIService', () => {
     }
     async function getServicesDetailData(id) {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/services/${id}`);
+            const response = await axios.get(`http://localhost:3000/api/v1/services/${id}`);
             // const response =  await fetch('data.json').then(response => response.json());
-            const data = await response.json();
-            if (data.code == '404') {
+            const data = response.data
+            if (data.code !== 200) {
                 throw data
             }
-            servicesDetail.value = data;
-            
             return data
         } catch (error) {
+            console.log(error, 'ini error di store')
             const errorMessageFunction = serviceValidation.getErrorMessage(error.message)
             throw errorMessageFunction
         }
     }
     async function getReviewsData() {
         try {
-            const response = await fetch('http://localhost:3000/reviews');
-            // const response =  await fetch('data.json').then(response => response.json());
-
-            const data = await response.json();
-            reviews.value = data;
+            const response = await axios.get('http://localhost:3000/reviews');
+            const data = response.data
             return data
         } catch (error) {
             console.error('Error fetching data: ', error)
-            return null
+            const errorMessageFunction = serviceValidation.getErrorMessage(error.message)
+            throw errorMessageFunction
         }
     }
     async function getServicesDataSearch(keyword) {
@@ -77,6 +85,17 @@ export const useStoreAPI = defineStore('getAPIService', () => {
         }
     }
 
+    const getServiceType = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/v1/service-types/select')
+            const data = response.data
+            return data
+        } catch (error) {
+            const errorMessageFunction = serviceValidation.getErrorMessage(error.message)
+            throw errorMessageFunction
+        }
+    } 
+
     return {
         getServicesData,
         services,
@@ -85,6 +104,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
         getReviewsData,
         reviews,
         getServicesDataSearch,
-        getServicesDataSortBy
+        getServicesDataSortBy,
+        getServiceType,
     }
 })

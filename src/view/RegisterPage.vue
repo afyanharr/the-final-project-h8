@@ -35,14 +35,14 @@ const register = async () => {
         Swal.fire({
             title: 'Akun berhasil dibuat',
             text: messageSuccess.value,
-            icon: 'success'
+            icon: 'success',
+            timer: 2000
         })
         router.push({name: 'Login'})
     }
     } catch (error) {
         throw error
     }
-
 }
 </script>
 
