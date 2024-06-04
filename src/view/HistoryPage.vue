@@ -23,7 +23,7 @@ onMounted(async () => {
         <div class="container">
             <h4 class="d-flex justify-content-center mt-5">Riwayat ulasanmu ada disini</h4>
             <CardHistory
-                :reviews="reviews"
+                :reviews="reviews.data"
             />
         </div>
     </div>

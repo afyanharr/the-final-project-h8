@@ -27,7 +27,6 @@ watch(() => props.serviceId, (newValue) => {
     }
 });
 
-
 const deleteComment = async (id) => {
     try {
         const response = await useHistoryAPI.deleteReview(id)
@@ -35,8 +34,10 @@ const deleteComment = async (id) => {
             Swal.fire({
                 title: "Berhasil Menghapus review",
                 text: response.message,
-                icon: "success"
+                icon: "success",
+                timer: 2000
             });
+            emit('reInitData')
         }
     } catch (error) {
         throw error

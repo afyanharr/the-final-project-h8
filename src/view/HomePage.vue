@@ -103,6 +103,7 @@ const countPaginate = async (params) => {
   } else if (params == 'decrement') {
     currentPagination.value--
     tempQuery.value = { ...tempQuery.value, ['page']: currentPagination.value, ['show']: 12}
+    services.value = await getAPIService.getServicesData(tempQuery.value)
   }
 }
 </script>
@@ -144,7 +145,7 @@ const countPaginate = async (params) => {
                   <button class="btn main-color btn-sm text-white me-4" @click.prevent="submitSearch()">Cari</button>
                 </div>
                 <div class="col-md-8 d-flex justify-content-center">
-                  <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ filterValue }}</button>
+                  <button class="btn dropdown-toggle filter-and-sort-text" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ filterValue }}</button>
                   <ul class="dropdown-menu dropdown-menu-end">
                       <li v-for="servicesTypeData in servicesType.data" :key="servicesTypeData.id">
                           <a class="dropdown-item" href="#" @click="updateQueryFilter('serviceTypeId', servicesTypeData.id, servicesTypeData.name)">
@@ -152,7 +153,7 @@ const countPaginate = async (params) => {
                           </a>
                       </li>
                   </ul>
-                  <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ sortValue }}</button>
+                  <button class="btn dropdown-toggle filter-and-sort-text" type="button" data-bs-toggle="dropdown" aria-expanded="false">{{ sortValue }}</button>
                   <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="#" @click="updateQuerySort('name', 'asc', 'A-Z')" >A-Z</a></li>
                     <li><a class="dropdown-item" href="#" @click="updateQuerySort('name', 'desc', 'Z-A')" >Z-A</a></li>
@@ -212,12 +213,12 @@ const countPaginate = async (params) => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
-    <div class="container d-flex justify-content-center mt-3 mb-5" v-if="services.data">
+    <br>
+    <div class="container d-flex justify-content-center mt-6 mb-5" v-if="services.data">
       <nav aria-label="...">
-        <ul class="pagination">
+        <ul class="pagination" v-if="services.data.data.length > 0">
           <li class="page-item" :class="{'disabled': services.data.meta.previousPage == null}" @click="countPaginate('decrement')">
             <span class="page-link">Previous</span>
           </li>
@@ -229,7 +230,7 @@ const countPaginate = async (params) => {
           </li>
           <li class="page-item"><a class="page-link" href="#" @click="countPaginate('increment')" v-if="services.data.meta.nextPage !== null">{{ services.data.meta.nextPage }}</a></li>
           <li class="page-item">
-            <a class="page-link" href="#" :class="{'disabled': services.data.meta.nextPage == services.data.meta.currentPage+1}"@click="countPaginate('increment')">Next</a>
+            <a class="page-link" href="#" :class="{'disabled': services.data.meta.nextPage == null}"@click="countPaginate('increment')">Next</a>
           </li> 
         </ul>
       </nav>
@@ -240,7 +241,7 @@ const countPaginate = async (params) => {
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 * {
-    font-family: "Roboto";
+  font-family: "Roboto";
 }
 
 .zoom {
@@ -306,6 +307,13 @@ const countPaginate = async (params) => {
 /* .card-img-top {
   wi
 } */
+.filter-and-sort-text {
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  width: 100px; 
+  border: 1px solid #ccc;
+}
 
 @media (max-width: 576px) {
   .card-style {

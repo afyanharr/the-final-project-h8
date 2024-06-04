@@ -6,13 +6,12 @@ export const useHistoryStore = defineStore('historyStore', () => {
     const getToken = localStorage.getItem('token')
     const getReviews = async (id) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/users/${id}/reviews`, {
+            const response = await axios.get(`http://localhost:3000/api/v1/users/${id}/reviews`, {
                 headers : {
                     'Authorization' : `Bearer ${getToken}`
                 }
             })
-            const responseData = await response.json()
-            const data = responseData.data
+            const data = response.data
             return data
         } catch (error) {
             console.log('Error fetching data', error)

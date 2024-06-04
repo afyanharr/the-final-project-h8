@@ -8,7 +8,8 @@ export default class AuthValidations {
             return Swal.fire({
                 title: 'Kesalahan',
                 text: 'Password tidak boleh kosong',
-                icon: "error"
+                icon: "error",
+                timer: 2000
             })
         } else if (password && confirmPassword == '') {
             // console.log('Password tidak boleh kosong')
@@ -16,7 +17,8 @@ export default class AuthValidations {
             return Swal.fire({
                 title: 'Kesalahan',
                 text: 'Password tidak boleh kosong',
-                icon: "error"
+                icon: "error",
+                timer: 2000
             })
         } else if (password !== confirmPassword) {
             // console.log('Password tidak sesuai')
@@ -24,7 +26,8 @@ export default class AuthValidations {
             return Swal.fire({
                 title: 'Kesalahan',
                 text: 'Password tidak sesuai',
-                icon: "error"
+                icon: "error",
+                timer: 2000
             })
         } else if (password == '' || confirmPassword == '') {
             // console.log('Password tidak boleh kosong')
@@ -32,7 +35,8 @@ export default class AuthValidations {
             return Swal.fire({
                 title: 'Kesalahan',
                 text: 'Password tidak boleh kosong',
-                icon: "error"
+                icon: "error",
+                timer: 2000
             })
         } else if (password === confirmPassword) {
             // router.push({name: 'Login'})

@@ -1,23 +1,59 @@
 <script setup>
+import { ref,} from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const props = defineProps({
-    reviews: Array
+    reviews: Array,
 })
+
+const starsPreReview = ref([
+    { 
+        active: false,
+        value: 1,
+    },
+    { 
+        active: false,
+        value: 2,
+    },
+    { 
+        active: false,
+        value: 3,
+    },
+    { 
+        active: false,
+        value: 4
+    },
+    { 
+        active: false,
+        value: 5
+    }
+])
+
+const getDetail = (id) => {
+    router.push({ name: 'Detail', params: { id: id }})
+}
+
 </script>
 
 <template>
-<div class="row" v-if="reviews.id">
-    <div class="col-md-4"  v-for="listReviews in reviews.reviews" :key="listReviews.id">
+<div class="row" v-if="reviews">
+<div class="col-md-4"  v-for="listReviews in reviews.data.reviews" :key="listReviews.id">
         <div class="card mt-5 p-1 history-card">
-            <div class="card-body">
+            <div class="card-body" @click="getDetail(listReviews.id)">
                 <div class="row">
                     <div class="row">
                         <div class="">
-                            <p class="card-text">Anda berkomentar pada {{ listReviews.service.name }}</p>
-                            <i class="bi bi-star-fill stars-text"></i>
+                            <p class="card-text">Anda berkomentar pada {{ listReviews.services[2] }}</p>
+                            <!-- <i class="bi bi-star-fill stars-text"></i> -->
+                            <div class="star-pre-review fs-2">
+                                <i v-for="(, index) in starsPreReview" :key="index" 
+                                :class="[index+1 <= listReviews.rating ? 'bi-star-fill' : 'bi-star', 'me-2']"
+                                ></i>
+                            </div>
                             <p class="card-text">{{ listReviews.description }}</p>
-                            <router-link :to="{ name: 'Detail' , params : {id : listReviews.service.id }}" tag="nav-link" class="nav-link active d-flex justify-content-end">
+                            <!-- <router-link :to="{ name: 'Detail' , params : {id : listReviews.service }}" tag="nav-link" class="nav-link active d-flex justify-content-end">
                                 lihat
-                            </router-link>
+                            </router-link> -->
                         </div>
                     </div>
                 </div>
@@ -41,5 +77,9 @@ const props = defineProps({
     background-color: #10A8E5;
     color: white !important;
     font-weight: bold;
+}
+
+.bi-star-fill {
+    color: 	#ffa534 !important;
 }
 </style>

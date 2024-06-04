@@ -6,7 +6,7 @@ import FormSection from '../components/FormSection.vue';
 import ReviewSection from '../components/ReviewSection.vue';
 import { useStoreAPI } from '../stores/index';
 import { ref, onMounted } from 'vue'
-import { routerKey, useRoute, useRouter } from 'vue-router'; 
+import { useRoute, useRouter } from 'vue-router'; 
 import { useHistoryStore } from '../stores/history';
 import Swal from 'sweetalert2'
 
@@ -17,7 +17,6 @@ const route = useRoute()
 const router = useRouter()
 const errorMessage = ref(null)
 const getUserId = localStorage.getItem('userId')
-const alertFlagging = ref(true)
 
 const starsPreReview = ref([
     { 
@@ -54,7 +53,8 @@ const submitReview = async (data) => {
             Swal.fire({
                 title: "Kamu belum login?",
                 text: "Login dulu yuk untuk berkomentar",
-                icon: "question"
+                icon: "question",
+                timer: 2000,
             });
             router.push({name: 'Login'})
         }
@@ -71,13 +71,18 @@ const submitReview = async (data) => {
             Swal.fire({
                 title: "Berhasil Memberikan Review",
                 text: response.message,
-                icon: "success"
+                icon: "success",
+                timer: 2000
             });
+            await fetchData();
+            reviewDataInit.value.rating =  null
+            reviewDataInit.value.description = null
         } else {
             Swal.fire({
                 title: "Terjadi kesalahan",
                 text: response.message,
-                icon: "error"
+                icon: "error",
+                timer: 2000
             });
         }
     } catch (error) {
