@@ -193,8 +193,7 @@ const countPaginate = async (params) => {
           <div class="row">
             <div class="col-6 col-md-6 col-lg-2 mt-3" v-if="services.data" v-for="service in services.data.data" :key="service.id" :to="{ name: 'Detail', params: { id: service.id } }">
               <div class="card card-style zoom p-1" @click="getDetail(service.id)">
-                <img src="https://www.apotek-k24.com/images/post/16777494720230211014631yunita.isnaciri-ciri%20pengusaha%20yang%20berhasil.jpg.webp" class="card-img-top" alt="Service Image">
-                <!-- <img src="https://www.kavacare.id/assets/uploads/2023/01/Narayana-Health-Hospital-Rekomendasi-Rumah-Sakit-India-Kavacare.jpg?resolution=732,2.625" class="card-img-top" alt="Service Image"> -->
+                <img :src="service.imageUrl" class="card-img-top" alt="Service Image">
                 <div class="card-body">
                   <h5 class="card-title">{{ service.name }}</h5>
                   <p class="card-text">{{ service.address }}</p>
