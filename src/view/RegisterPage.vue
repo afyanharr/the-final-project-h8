@@ -13,7 +13,6 @@ const messageSuccess = ref(null)
 
 const formDataRegister = ref({
     username: '',
-    name: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -21,7 +20,44 @@ const formDataRegister = ref({
 
 const register = async () => {
     try {
-    AuthValidation.passwordValidations(formDataRegister.value.password, formDataRegister.value.confirmPassword)
+    // const tempUsername = formDataRegister.value.username.split('')
+    // const tempPhoneNumberToString = formDataRegister.value.phoneNumber.toString()
+    // const tempPhoneNumber = tempPhoneNumberToString.split('')
+    // if (tempUsername.includes(' ')) {
+    //     Swal.fire({
+    //         title: 'format tidak valid',
+    //         text: 'Username tidak boleh mengandung spasi',
+    //         icon: 'error',
+    //         timer: 4000
+    //     })
+    //     return new Error('Username tidak boleh mengandung spasi');
+    // } else if (tempUsername.length < 6) {
+    //     Swal.fire({
+    //         title: 'format tidak valid',
+    //         text: 'Username minimal 6 huruf',
+    //         icon: 'error',
+    //         timer: 4000
+    //     })
+    //     return new Error('Username minimal 6 huruf');
+    // } else if (tempPhoneNumber.length < 11) {
+    //     Swal.fire({
+    //         title: 'format tidak valid',
+    //         text: 'Phone number harus berjumlah minimal 11 angka',
+    //         icon: 'error',
+    //         timer: 4000
+    //     })
+    //     return new Error('Username minimal 6 huruf');
+    // }
+    const x = AuthValidation.RegisterValidations(
+        formDataRegister.value.username,
+        formDataRegister.value.email,
+        formDataRegister.value.password,
+        formDataRegister.value.confirmPassword,
+        formDataRegister.value.phoneNumber
+    )
+    if (x) {
+        return
+    }
 
     const payload = {
         username: formDataRegister.value.username,
@@ -35,14 +71,28 @@ const register = async () => {
         Swal.fire({
             title: 'Akun berhasil dibuat',
             text: messageSuccess.value,
-            icon: 'success'
+            icon: 'success',
+            timer: 2000
         })
         router.push({name: 'Login'})
+    } else if (error.response.data.code == 400) {
+        Swal.fire({
+            title: 'format tidak valid',
+            text: error.response.data.message,
+            icon: 'error',
+            timer: 4000
+        })
     }
     } catch (error) {
-        throw error
+        if (error.response.data.code == 400) {
+        Swal.fire({
+            title: 'format tidak valid',
+            text: error.response.data.message,
+            icon: 'error',
+            timer: 4000
+        })
+        }
     }
-
 }
 </script>
 
@@ -64,12 +114,8 @@ const register = async () => {
                 <input type="text" class="form-control" id="exampleInputUsername" aria-describedby="emailHelp" v-model="formDataRegister.username" required>
             </div>
             <div class="mb-3">
-                <label for="exampleInputName1" class="form-label">Nama Lengkap</label>
-                <input type="text" class="form-control" id="exampleInputName" aria-describedby="emailHelp" v-model="formDataRegister.name" required>
-            </div>
-            <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Alamat Email</label>
-                <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" v-model="formDataRegister.email" required>
+                <input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" name="email" v-model="formDataRegister.email"> 
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
