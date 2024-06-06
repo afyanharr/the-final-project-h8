@@ -9,7 +9,7 @@ export const useHistoryStore = defineStore('historyStore', () => {
     const getReviews = async (id) => {
         try {
             const getReqQuery = route.query
-            let url = `http://localhost:3000/api/v1/users/${id}/reviews`
+            let url = `${import.meta.env.VITE_APP_DOMAIN}/users/${id}/reviews`
             if (getReqQuery) {
                 const reqQuery = new URLSearchParams(getReqQuery).toString();
                 url +=`?${reqQuery}`
@@ -28,7 +28,7 @@ export const useHistoryStore = defineStore('historyStore', () => {
     };
     const submitReview = async (payload) => {
         try {
-            const response = await axios.post(`http://localhost:3000/api/v1/reviews`, payload, {
+            const response = await axios.post(`${import.meta.env.VITE_APP_DOMAIN}/reviews`, payload, {
                 headers : {
                     'Authorization' : `Bearer ${getToken}`
                 }
@@ -41,7 +41,7 @@ export const useHistoryStore = defineStore('historyStore', () => {
     }
     const editReview = async (id, payload) => {
         try {
-            const response = await axios.put(`http://localhost:3000/api/v1/reviews/${id}`, payload, {
+            const response = await axios.put(`${import.meta.env.VITE_APP_DOMAIN}/reviews/${id}`, payload, {
                 headers : {
                     'Authorization' : `Bearer ${getToken}`
                 }
@@ -55,7 +55,7 @@ export const useHistoryStore = defineStore('historyStore', () => {
 
     const deleteReview = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:3000/api/v1/reviews/${id}`, {
+            const response = await axios.delete(`${import.meta.env.VITE_APP_DOMAIN}/reviews/${id}`, {
                 headers : {
                     'Authorization' : `Bearer ${getToken}`
                 }

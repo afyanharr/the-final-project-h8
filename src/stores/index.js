@@ -12,7 +12,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
 
     const getServicesData = async (tempQuery) => {
         try {
-            let url = 'http://localhost:3000/api/v1/services'
+            let url = `${import.meta.env.VITE_APP_DOMAIN}/services` 
             if (tempQuery){
                 const reqQuery = new URLSearchParams(tempQuery).toString();
                 url += `?${reqQuery}`
@@ -34,7 +34,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
     }
     const getServicesDetailData = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/v1/services/${id}`);
+            const response = await axios.get(`${import.meta.env.VITE_APP_DOMAIN}/services/${id}`);
             // const response =  await fetch('data.json').then(response => response.json());
             const data = response.data
             if (data.code !== 200) {
@@ -48,7 +48,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
     }
     const getReviewsData = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/reviews');
+            const response = await axios.get(`${import.meta.env.VITE_APP_DOMAIN}/reviews`);
             const data = response.data
             return data
         } catch (error) {
@@ -59,7 +59,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
     }
     const getServicesDataSearch = async (keyword) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/services?keyword=${keyword}`);
+            const response = await fetch(`${import.meta.env.VITE_APP_DOMAIN}/services?keyword=${keyword}`);
             // const response =  await fetch('data.json').then(response => response.json());
             const data = await response.json();
             services.value = data;
@@ -73,7 +73,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
         try {
             const key = Object.keys(query)[0];
             const value = query[key];
-            const response = await fetch(`http://localhost:3000/api/v1/services?sortBy=${key}&sortingMethod=${value}`);
+            const response = await fetch(`${import.meta.env.VITE_APP_DOMAIN}/services?sortBy=${key}&sortingMethod=${value}`);
             // const response =  await fetch('data.json').then(response => response.json());
             const data = await response.json();
             services.value = data;
@@ -86,7 +86,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
 
     const getServiceType = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/v1/service-types/select')
+            const response = await axios.get(`${import.meta.env.VITE_APP_DOMAIN}/service-types/select`)
             const data = response.data
             return data
         } catch (error) {
@@ -97,7 +97,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
 
     const getRelatedServices = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/v1/services/${id}/related`)
+            const response = await axios.get(`${import.meta.env.VITE_APP_DOMAIN}/services/${id}/related`)
             const data = response.data
             return data
         } catch (error) {

@@ -85,7 +85,7 @@ const openEditModal = (data) => {
                         <p clas="fw-lighter">{{ servicesDetail.description }}</p>
                     </div>
                     <div class="row action-section" v-if="servicesDetail.userId == getUserId">
-                        <button type="button" class="button-edit" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="openEditModal(servicesDetail)">
+                        <button type="button" class="button-edit" data-bs-target="#exampleModal" @click="openEditModal(servicesDetail)">
                             <i class="bi bi-pen-fill text-primary content-button"></i>
                             <p class="content-button text-button">Edit Komentar</p>
                         </button>
@@ -96,7 +96,7 @@ const openEditModal = (data) => {
                             :serviceId="serviceId"
                             @reInitData="reInitData"
                         />
-                        <button type="button" class="button-delete" data-bs-toggle="modal" data-bs-target="#exampleModal1" @click="deleteComment(servicesDetail.id, servicesDetail.userId)">
+                        <button type="button" class="button-delete" data-bs-target="#exampleModal1" @click="deleteComment(servicesDetail.id, servicesDetail.userId)">
                             <i class="bi bi-trash-fill text-danger content-button content-button-icon"></i>
                             <p class="content-button text-button">Hapus komentar</p>
                         </button>

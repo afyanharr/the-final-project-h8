@@ -173,7 +173,7 @@ const countPaginate = async (params) => {
           <div v-if="errorMessage" class="mt-5">
             <ErrorHandling :message="errorMessage"/>
           </div>
-          <div class="d-flex justify-content-center mt-5 text-secondary"  v-if="services && services.data && services.data.length < 1">
+          <div class="d-flex justify-content-center mt-5 text-secondary"  v-if="services && services.data && services.data.data.length < 1">
             <h5>Service tidak ditemukan</h5>
           </div>
         </div>        
