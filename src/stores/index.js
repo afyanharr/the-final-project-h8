@@ -10,7 +10,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
     const servicesDetail = ref(null)
     const reviews = ref(null)
 
-    async function getServicesData(tempQuery) {
+    const getServicesData = async (tempQuery) => {
         try {
             let url = 'http://localhost:3000/api/v1/services'
             if (tempQuery){
@@ -32,7 +32,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
             throw errorMessageFunction
         }
     }
-    async function getServicesDetailData(id) {
+    const getServicesDetailData = async (id) => {
         try {
             const response = await axios.get(`http://localhost:3000/api/v1/services/${id}`);
             // const response =  await fetch('data.json').then(response => response.json());
@@ -42,12 +42,11 @@ export const useStoreAPI = defineStore('getAPIService', () => {
             }
             return data
         } catch (error) {
-            console.log(error, 'ini error di store')
             const errorMessageFunction = serviceValidation.getErrorMessage(error.message)
             throw errorMessageFunction
         }
     }
-    async function getReviewsData() {
+    const getReviewsData = async () => {
         try {
             const response = await axios.get('http://localhost:3000/reviews');
             const data = response.data
@@ -58,7 +57,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
             throw errorMessageFunction
         }
     }
-    async function getServicesDataSearch(keyword) {
+    const getServicesDataSearch = async (keyword) => {
         try {
             const response = await fetch(`http://localhost:3000/api/v1/services?keyword=${keyword}`);
             // const response =  await fetch('data.json').then(response => response.json());
@@ -70,7 +69,7 @@ export const useStoreAPI = defineStore('getAPIService', () => {
             throw errorMessageFunction
         }
     }
-    async function getServicesDataSortBy(query) {
+    const getServicesDataSortBy = async (query) => {
         try {
             const key = Object.keys(query)[0];
             const value = query[key];
@@ -96,6 +95,17 @@ export const useStoreAPI = defineStore('getAPIService', () => {
         }
     } 
 
+    const getRelatedServices = async (id) => {
+        try {
+            const response = await axios.get(`http://localhost:3000/api/v1/services/${id}/related`)
+            const data = response.data
+            return data
+        } catch (error) {
+            const errorMessageFunction = serviceValidation.getErrorMessage(error.message)
+            throw errorMessageFunction
+        }
+    }
+
     return {
         getServicesData,
         services,
@@ -106,5 +116,6 @@ export const useStoreAPI = defineStore('getAPIService', () => {
         getServicesDataSearch,
         getServicesDataSortBy,
         getServiceType,
+        getRelatedServices
     }
 })

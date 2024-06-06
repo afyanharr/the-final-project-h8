@@ -2,7 +2,7 @@
 import NavbarAuth from '../components/NavbarAuth.vue'
 import ErrorHandling from '../components/ErrorHandling.vue';
 import { useStoreAPI } from '../stores/index';
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router';
 
 const router = useRouter()
@@ -42,11 +42,10 @@ const starsPreReview = ref([
     }
 ])
 
-async function fetchData() {
+const fetchData = async () => {
   try {
     services.value = await getAPIService.getServicesData()
     servicesType.value = await getAPIService.getServiceType()
-
   } catch (error) {
     errorMessage.value = error
   }
@@ -69,13 +68,13 @@ const updateQuerySort = (value1, value2, label) => {
   sortValue.value = label
   const sortValue11 = 'sortBy'
   const sortValue22 = 'sortingMethod'
-  tempQuery.value = { ...tempQuery.value, [sortValue11]: value1, [sortValue22]: value2}
+  tempQuery.value = { ...tempQuery.value, [sortValue11]: value1, [sortValue22]: value2, ['page']: currentPagination.value, ['show']: 12}
   
 }
 
 const updateQueryFilter = (key, value, label) => {
   filterValue.value = label
-  tempQuery.value = { ...tempQuery.value, [key]: value};
+  tempQuery.value = { ...tempQuery.value, [key]: value, ['page']: currentPagination.value, ['show']: 12};
 }
 
 const submitQuery = async (tempQueryParams) => {
@@ -84,12 +83,12 @@ const submitQuery = async (tempQueryParams) => {
   tempQuery.value = {}
 }
 
-const getDetail = (id) => {
+const getDetail = async (id) => {
   router.push({ name: 'Detail', params: { id: id }})
 }
 
 const submitSearch = async () => {
-  tempQuery.value = { ...tempQuery.value, ['keyword']: keywordSearch.value}
+  tempQuery.value = { ...tempQuery.value, ['keyword']: keywordSearch.value, ['page']: currentPagination.value, ['show']: 12}
   router.push({query: { ...tempQuery.value }})
   services.value = await getAPIService.getServicesData(tempQuery.value)
   tempQuery.value = {}
@@ -168,9 +167,6 @@ const countPaginate = async (params) => {
                 </div>
               </div>
             </div>
-            <!-- <form class="d-flex me-5 pe-5" role="search">
-              <input class="form-control m-2 search-input" type="search" placeholder="Temukan services..." aria-label="Search">
-            </form> -->
           </div>        
         </div>
         <div class="row container">
@@ -180,9 +176,7 @@ const countPaginate = async (params) => {
           <div class="d-flex justify-content-center mt-5 text-secondary"  v-if="services && services.data && services.data.length < 1">
             <h5>Service tidak ditemukan</h5>
           </div>
-        </div>
-
-        
+        </div>        
         <!-- card type 1
           <div class="row container d-flex justify-content-center">
           <div v-if="services.data" v-for="service in services.data.data" :key="service.id" :to="{ name: 'Detail', params: { id: service.id } }" tag="div" class="card p-2 m-3 zoom shadow">
@@ -200,6 +194,7 @@ const countPaginate = async (params) => {
             <div class="col-6 col-md-6 col-lg-2 mt-3" v-if="services.data" v-for="service in services.data.data" :key="service.id" :to="{ name: 'Detail', params: { id: service.id } }">
               <div class="card card-style zoom p-1" @click="getDetail(service.id)">
                 <img src="https://www.apotek-k24.com/images/post/16777494720230211014631yunita.isnaciri-ciri%20pengusaha%20yang%20berhasil.jpg.webp" class="card-img-top" alt="Service Image">
+                <!-- <img src="https://www.kavacare.id/assets/uploads/2023/01/Narayana-Health-Hospital-Rekomendasi-Rumah-Sakit-India-Kavacare.jpg?resolution=732,2.625" class="card-img-top" alt="Service Image"> -->
                 <div class="card-body">
                   <h5 class="card-title">{{ service.name }}</h5>
                   <p class="card-text">{{ service.address }}</p>
@@ -230,7 +225,7 @@ const countPaginate = async (params) => {
           </li>
           <li class="page-item"><a class="page-link" href="#" @click="countPaginate('increment')" v-if="services.data.meta.nextPage !== null">{{ services.data.meta.nextPage }}</a></li>
           <li class="page-item">
-            <a class="page-link" href="#" :class="{'disabled': services.data.meta.nextPage == null}"@click="countPaginate('increment')">Next</a>
+            <a class="page-link" href="#" :class="{'disabled': services.data.meta.nextPage == null}" @click="countPaginate('increment')">Next</a>
           </li> 
         </ul>
       </nav>
@@ -324,7 +319,7 @@ const countPaginate = async (params) => {
     overflow: hidden; 
     text-overflow: ellipsis;
     width: 100px; 
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
   }
   .card-text {
     overflow: hidden;

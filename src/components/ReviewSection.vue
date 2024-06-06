@@ -9,7 +9,7 @@ const props = defineProps({
     servicesDetail: Object,
     serviceId: Object
 })
-
+const emit = defineEmits(['reInitData'])
 const newData = ref(props.servicesDetail)
 const reviewData = ref({})
 const serviceId = ref(null)
@@ -37,11 +37,15 @@ const deleteComment = async (id) => {
                 icon: "success",
                 timer: 2000
             });
-            emit('reInitData')
+            reInitData()
         }
     } catch (error) {
         throw error
     }
+}
+
+const reInitData = () => {
+    emit('reInitData')
 }
 
 onMounted(() => {
@@ -49,7 +53,6 @@ onMounted(() => {
 
 const openEditModal = (data) => {
     reviewData.value = data
-    // selectedReviewId.value = event.currentTarget.dataset.id
 }
 </script>
 
@@ -60,9 +63,12 @@ const openEditModal = (data) => {
             <h5>Apa Kata Mereka : </h5>
         </div>
         <div class="container comment">
+            <div class="d-flex justify-content-center align-items-center mt-5 pt-5 fw-bolder" v-if="newData.data.reviews.length < 1">
+                <p>Belum ada komentar</p>
+            </div>
             <div class="row mt-3" v-for="servicesDetail in newData.data.reviews" :key="servicesDetail.id">
                 <div class="col-md-2">
-                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" class="mt-3" style ="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;">
+                    <img :src="servicesDetail.user.imageUrl" alt="image dummy" class="mt-3" style ="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;">
                 </div>
                 <div class="col-md-10">
                     <div class="row">
@@ -88,6 +94,7 @@ const openEditModal = (data) => {
                             :starsPreReview="starsPreReview"
                             :services-detail="servicesDetail"
                             :serviceId="serviceId"
+                            @reInitData="reInitData"
                         />
                         <button type="button" class="button-delete" data-bs-toggle="modal" data-bs-target="#exampleModal1" @click="deleteComment(servicesDetail.id, servicesDetail.userId)">
                             <i class="bi bi-trash-fill text-danger content-button content-button-icon"></i>

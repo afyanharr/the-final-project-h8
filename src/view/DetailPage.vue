@@ -4,6 +4,7 @@ import ErrorHandling from '../components/ErrorHandling.vue';
 import InformationSection from '../components/InformationSection.vue';
 import FormSection from '../components/FormSection.vue';
 import ReviewSection from '../components/ReviewSection.vue';
+import RelatedServices from '../components/RelatedServices.vue'
 import { useStoreAPI } from '../stores/index';
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'; 
@@ -13,6 +14,7 @@ import Swal from 'sweetalert2'
 const getAPIService = useStoreAPI();
 const useHistoryAPI = useHistoryStore();
 const servicesDetail = ref({});
+const servicesRelated = ref( null);
 const route = useRoute()
 const router = useRouter()
 const errorMessage = ref(null)
@@ -54,7 +56,6 @@ const submitReview = async (data) => {
                 title: "Kamu belum login?",
                 text: "Login dulu yuk untuk berkomentar",
                 icon: "question",
-                timer: 2000,
             });
             router.push({name: 'Login'})
         }
@@ -90,9 +91,11 @@ const submitReview = async (data) => {
         throw error
     }
 }
-async function fetchData() {
+
+const fetchData = async () =>  {
     try {
         servicesDetail.value = await getAPIService.getServicesDetailData(route.params.id)
+        servicesRelated.value = await getAPIService.getRelatedServices(route.params.id)
     } catch (error) {
         errorMessage.value = 'Service Tidak ditemukan'
     }
@@ -110,20 +113,20 @@ onMounted(async () => {
     <ErrorHandling :message="errorMessage"/>
 </div>
 <div class="container" v-else>
-    <div class ="row mt-5" >
+    <div class ="row mt-5" v-if="servicesDetail.data">
         <div class="col-md-6">
             <div class="row">
-                <img src="https://www.apotek-k24.com/images/post/16777494720230211014631yunita.isnaciri-ciri%20pengusaha%20yang%20berhasil.jpg.webp" alt="image dummy" id="main-image" class="ps-3 pe-3">
+                <img :src="servicesDetail.data.data.images[0].imageUrl" alt="main image" id="main-image" class="ps-3 pe-3">
             </div>
             <div class="row justify-content-around ps-2 pe-">
                 <div class="col-md-3 ps-0 pe-0 pt-3 pb-0 d-flex justify-content-center">
-                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" class="child-image d-flex justify-content-center">
+                    <img :src="servicesDetail.data.data.images[1].imageUrl" alt="child image" class="child-image d-flex justify-content-center">
                 </div>
                 <div class="col-md-3 ps-0 pe-0 pt-3 pb-0 d-flex justify-content-center">
-                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" class="child-image d-flex justify-content-center">
+                    <img :src="servicesDetail.data.data.images[2].imageUrl" alt="child image" class="child-image d-flex justify-content-center">
                 </div>
                 <div class="col-md-3 ps-0 pe-0 pt-3 pb-0 d-flex justify-content-center">
-                    <img src="https://images.theconversation.com/files/369567/original/file-20201116-23-18wlnv.jpg?ixlib=rb-4.1.0&q=20&auto=format&w=320&fit=clip&dpr=2&usm=12&cs=strip" alt="image dummy" class="child-image d-flex justify-content-center">
+                    <img :src="servicesDetail.data.data.images[3].imageUrl" alt="child image" class="child-image d-flex justify-content-center">
                 </div>
             </div>
         </div>
@@ -141,27 +144,13 @@ onMounted(async () => {
         :services-detail="servicesDetail.data"
         :starsPreReview="starsPreReview"
         :serviceId="servicesDetail.data"
+        @updatetrigger="fetchData"
+        @reInitData="fetchData"
     />
-    <div class="row mt-5">
-        <div class="container">
-            <div class="row">
-                <h3>Layanan Terkait</h3>
-            </div>
-            <!-- <div class="row">
-                <router-link v-for="relatedService in servicesDetail.relatedServices" :key="relatedService.id" :to="{ name: 'Detail', params: { id: relatedService.id } }" tag="div" class="card p-2 m-3 zoom shadow" style="width: 12rem; text-decoration: none;">
-                <img :src="relatedService.image" class="card-img-top" alt="Service Image">
-                <div class="card-body">
-                    <h5 class="card-title">{{ relatedService.name }}</h5>
-                    <p class="card-text">{{ relatedService.address }}</p>
-                    <router-link :to="{ name: 'Detail' }" tag="button" class="btn btn-primary main-color">
-                        Detail
-                    </router-link>
-                </div>
-                </router-link>
-            </div> -->
-            <div class="row"></div>
-        </div>
-    </div>
+    <relatedServices 
+        :servicesRelated = servicesRelated
+        @reInitData="fetchData"
+    />
     <br>
     <br>
     <br>
@@ -188,6 +177,21 @@ onMounted(async () => {
     margin-right: 5px; 
     font-size: 50px;
 } */
+
+
+.card-title {
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  width: 150px; 
+  /* border: 1px solid #ccc; */
+}
+
+.card-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 150px; 
+}
 
 .bi-star-fill {
     color: 	#ffa534 !important;
@@ -217,6 +221,11 @@ onMounted(async () => {
     height: auto;
 }
 
+.zoom:hover {
+  transform: scale(1.1);
+  color: #10A8E5;
+}
+
 @media (max-width: 576px) {
     .child-image {
         width: 50px;
@@ -228,5 +237,7 @@ onMounted(async () => {
     }
 
 }
+
+
 </style>
 

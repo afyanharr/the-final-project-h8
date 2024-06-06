@@ -1,16 +1,24 @@
 <script setup>
 import { ref } from 'vue';
-const emit = defineEmits(['catchDescAndRating']);
+const emit = defineEmits(['catchDescAndRating','reInitData']);
 const props = defineProps({
     reviewDataInit: Object,
-    starsPreReview: Array,
+    // starsPreReview: Array,
 })
 
 const alertFlagging = ref(false)
 const reviewData = ref({
     description: null,
     rating: null,
-})
+});
+
+const starsPreReview = ref([
+    { active: false, value: 1 },
+    { active: false, value: 2 },
+    { active: false, value: 3 },
+    { active: false, value: 4 },
+    { active: false, value: 5 }
+]);
 
 if (!reviewData.value.description || !reviewData.value.rating) {
     alertFlagging.value = !alertFlagging.value
@@ -22,17 +30,22 @@ const starsClick = (index) => {
     }
     let finalValue = null
     for (let i = 0; i <= index; i++) {
-        props.starsPreReview[i].active = true;
-        finalValue = props.starsPreReview[i].value
+        starsPreReview.value[i].active = true;
+        finalValue = starsPreReview.value[i].value
     }
     for (let i = index+1; i <=4; i++) {
-        props.starsPreReview[i].active = false;
+        starsPreReview.value[i].active = false;
     }
     reviewData.value.rating = finalValue
 }
-
 const sendDataReviewToParent = () => {
+    if(reviewData.value)
     emit('catchDescAndRating', reviewData)
+    emit('reInitData')
+    reviewData.value.description = null
+    for (let i = 0; i < starsPreReview.value.length; i++) {
+    starsPreReview.value[i].active = false
+    }
 }
 </script>
 

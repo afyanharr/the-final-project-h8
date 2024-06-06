@@ -25,6 +25,7 @@ const login = async () => {
         if (response.code == 200) {
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('userId', response.data.id)
+            localStorage.setItem('username', response.data.username)
             Swal.fire({
                 title: "Berhasil Login",
                 text: response.message,
@@ -32,6 +33,20 @@ const login = async () => {
                 timer: 2000
             });
             router.push({name: 'Services'})
+        } else if (error.response.data.code == 404) {
+            Swal.fire({
+                title: 'Email belum terdaftar',
+                text: error.response.data.message,
+                icon: "error",
+                timer: 2000
+            })
+        } else if (error.response.data.code == 400) {
+            Swal.fire({
+                title: 'Username atau password salah',
+                text: error.response.data.message,
+                icon: "error",
+                timer: 2000
+            })
         }
         
     } catch (error) {
@@ -76,7 +91,7 @@ const login = async () => {
                     <label for="exampleInputPassword1" class="form-label">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" v-model="formDataLogin.password" required>
                 </div>
-                <button type="button" class="btn btn-blue" data-bs-toggle="modal"  data-bs-target="#exampleModal"  @click.prevent="login">Submit</button>
+                <button type="button" class="btn btn-blue" data-bs-toggle="modal"  data-bs-target="#exampleModal"  @click.prevent="login" @keydown.enter="login">Submit</button>
                 
             </form>
             <div class="mt-3 mb-1">

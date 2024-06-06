@@ -1,108 +1,3 @@
-<!-- <script setup>
-import { onMounted, ref, watch } from 'vue';
-import { useHistoryStore } from '../stores/history';
-import Swal from 'sweetalert2'
-const useHistoryAPI = useHistoryStore()
-
-const props = defineProps({
-    reviewData: Object,
-    servicesDetail: Object
-})
-
-const starsPreReview = ref([
-    { 
-        active: false,
-        value: 1,
-    },
-    { 
-        active: false,
-        value: 2,
-    },
-    { 
-        active: false,
-        value: 3,
-    },
-    { 
-        active: false,
-        value: 4
-    },
-    { 
-        active: false,
-        value: 5
-    }
-])
-
-
-const reviewDataUpdate = ref({
-  userId: localStorage.getItem('userId'),
-  serviceId: props.servicesDetail.serviceId,
-  description: props.reviewData.description,
-  rating: props.reviewData.rating,
-})
-
-// watch(() => props.reviewData.description, (newValue) => {
-//       reviewDataUpdate.value.description = newValue;
-// });
-
-const starsClick = (index) => {
-    let finalValue = null
-    for (let i = 0; i <= index; i++) {
-        starsPreReview.value[i].active = true;
-        finalValue = starsPreReview.value[i].value
-    }
-    for (let i = index+1; i <=4; i++) {
-        starsPreReview.value[i].active = false;
-    }
-    reviewDataUpdate.value.rating = finalValue
-    console.log(reviewDataUpdate.value, 'ini payload')
-}
-const newDesc = ref(props.reviewData.description);
-const newRate = ref(props.reviewData.rating)
-watch(() => props.reviewData, (newValue) => {
-    if (newValue && newValue.description && newValue.rating) {
-        newDesc.value = newValue.description;
-        newDesc.value == newValue.rating;
-    }
-});
-if (newRate.value !== 0 && newRate.value !== null && newRate.value !== undefined) {
-  console.log(newRate.value)
-  console.log('------------------')
-  for (let i = 0; i < newRate.value; i++) {
-    console.log('++++')
-    starsPreReview.value[i].active = true;
-  }
-}
-
-
-const updateReview = async () => {
-  try {
-    const payload = {
-      userId: reviewDataUpdate.value.userId,
-      serviceId: reviewDataUpdate.value.serviceId,
-      description: newDesc.value,
-      rating: newRate.value
-    }
-    const reviewId = props.servicesDetail.id
-    const response = await useHistoryAPI.editReview(reviewId, payload)
-    if (response.code == 200) {
-      Swal.fire({
-          title: "Berhasil Update Review",
-          text: response.message,
-          icon: "success"
-      });
-    } else {
-      Swal.fire({
-          title: "Terjadi kesalahan",
-          text: response.message,
-          icon: "success"
-      });
-    }
-  } catch (error) {
-    throw error
-  }
-}
-</script> -->
-
 <script setup>
 import { ref, watch } from 'vue';
 import { useHistoryStore } from '../stores/history';
@@ -116,6 +11,8 @@ const props = defineProps({
     reviewData: Object,
     servicesDetail: Object
 });
+
+const emit = defineEmits(['reInitData'])
 
 const starsPreReview = ref([
     { active: false, value: 1 },
@@ -148,6 +45,13 @@ const starsClick = (index) => {
     newRate.value = finalValue.value;
 };
 
+const resetValue = () => {
+  newDesc.value = props.reviewData ? props.reviewData.rating : 0
+  for (let i = 0; i < starsPreReview.value.length; i++) {
+    starsPreReview.value[i].active = false
+  }
+}
+
 const updateStarsPreReview = () => {
     for (let i = 0; i < newRate.value; i++) {
         starsPreReview.value[i].active = true;
@@ -162,13 +66,14 @@ const updateStarsPreReview = () => {
 const updateReview = async () => {
     try {
         const payload = {
+          // id: props.reviewData.id,
           userId: localStorage.getItem('userId'),
           serviceId: props.servicesDetail.serviceId,
           description: newDesc.value,
-          rating: newRate.value
+          rating: newRate.value,
         };
         const reviewId = props.servicesDetail.id;
-        const response = await useHistoryAPI.editReview(reviewId, payload);
+        const response = await useHistoryAPI.editReview(props.reviewData.id, payload);
         if (response.code === 200) {
             Swal.fire({
                 title: "Berhasil Update Review",
@@ -176,7 +81,7 @@ const updateReview = async () => {
                 icon: "success",
                 timer: 2000
             });
-            await getAPIService.getServicesDetailData(props.servicesDetail.serviceId)
+            emit('reInitData')
         } else {
             Swal.fire({
                 title: "Terjadi kesalahan",
@@ -201,7 +106,7 @@ const submitReview = () => {
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Ubah Komentar</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="resetValue()"></button>
       </div>
       <div class="modal-body">
         <div class="star-pre-review fs-2">

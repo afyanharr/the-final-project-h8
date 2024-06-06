@@ -32,18 +32,17 @@ const starsPreReview = ref([
 const getDetail = (id) => {
     router.push({ name: 'Detail', params: { id: id }})
 }
-
 </script>
 
 <template>
 <div class="row" v-if="reviews">
-<div class="col-md-4"  v-for="listReviews in reviews.data.reviews" :key="listReviews.id">
-        <div class="card mt-5 p-1 history-card">
-            <div class="card-body" @click="getDetail(listReviews.id)">
+    <div class="col-md-4"  v-for="listReviews in reviews.data.reviews" :key="listReviews.id">
+        <div class="card mt-2 p-1 history-card">
+            <div class="card-body" @click="getDetail(listReviews.serviceId)">
                 <div class="row">
                     <div class="row">
                         <div class="">
-                            <p class="card-text">Anda berkomentar pada {{ listReviews.services[2] }}</p>
+                            <p class="card-text">Anda berkomentar pada {{ listReviews.services.name }}</p>
                             <!-- <i class="bi bi-star-fill stars-text"></i> -->
                             <div class="star-pre-review fs-2">
                                 <i v-for="(, index) in starsPreReview" :key="index" 
