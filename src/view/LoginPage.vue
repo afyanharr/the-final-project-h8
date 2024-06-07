@@ -50,21 +50,23 @@ const login = async () => {
         }
         
     } catch (error) {
-        // if (error.response.data.code == 404) {
-        //     Swal.fire({
-        //         title: 'Email belum terdaftar',
-        //         text: error.response.data.message,
-        //         icon: "error",
-        //         timer: 2000
-        //     })
-        // } else if (error.response.data.code == 400) {
-        //     Swal.fire({
-        //         title: 'Username atau password salah',
-        //         text: error.response.data.message,
-        //         icon: "error",
-        //         timer: 2000
-        //     })
-        // }
+        if (error.response) {
+            if (error.response.data.code == 404) {
+            Swal.fire({
+                title: 'Email belum terdaftar',
+                text: error.response.data.message,
+                icon: "error",
+                timer: 2000
+            })
+            } else if (error.response.data.code == 400) {
+                Swal.fire({
+                    title: 'Username atau password salah',
+                    text: error.response.data.message,
+                    icon: "error",
+                    timer: 2000
+                })
+            }
+        }
     }
 }
 

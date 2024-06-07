@@ -5,6 +5,10 @@ export default class AuthValidations {
         const tempUsername = username.split('')
         const tempPhoneNumberToString = phoneNumber.toString()
         const tempPhoneNumber = tempPhoneNumberToString.split('')
+        const tempPassword = password.split('')
+        const hasUpperCase = /[A-Z]/;
+        const hasNumber = /[0-9]/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         let isError = false
         if (username == ''
         || email == ''
@@ -75,10 +79,31 @@ export default class AuthValidations {
             })
             isError = true
             return isError
-        } else if (tempPhoneNumber.length < 11) {
+        } else if (tempPhoneNumber.length < 10) {
             return Swal.fire({
                 title: 'format tidak valid',
                 text: 'Phone number harus berjumlah minimal 11 angka',
+                icon: 'error',
+                timer: 4000
+            })
+        } else if (!hasUpperCase.test(tempPassword)) {
+            return Swal.fire({
+                title: 'format tidak valid',
+                text: 'Password harus minimal memiliki angka dan huruf kapital',
+                icon: 'error',
+                timer: 4000
+            })
+        } else if (!hasNumber.test(tempPassword)) {
+            return Swal.fire({
+                title: 'format tidak valid',
+                text: 'Password harus memiliki angka dan huruf kapital',
+                icon: 'error',
+                timer: 4000
+            })
+        } else if (!emailRegex.test(email)) {
+            return Swal.fire({
+                title: 'format tidak valid',
+                text: 'format email tidak valid',
                 icon: 'error',
                 timer: 4000
             })
