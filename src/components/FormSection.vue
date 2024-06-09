@@ -21,12 +21,14 @@ const starsPreReview = ref([
 ]);
 
 if (!reviewData.value.description || !reviewData.value.rating) {
-    alertFlagging.value = !alertFlagging.value
+    alertFlagging.value = true
 }
 
 const starsClick = (index) => {
-    if (!reviewData.value.description || !reviewData.value.rating) {
-        alertFlagging.value = !alertFlagging.value
+    if (!reviewData.value.description 
+    || !reviewData.value.rating
+    || reviewData.value.description == '') {
+        alertFlagging.value = true
     }
     let finalValue = null
     for (let i = 0; i <= index; i++) {
@@ -44,8 +46,9 @@ const sendDataReviewToParent = () => {
     emit('reInitData')
     reviewData.value.description = null
     for (let i = 0; i < starsPreReview.value.length; i++) {
-    starsPreReview.value[i].active = false
+        starsPreReview.value[i].active = false
     }
+    reviewData.value.rating = null
 }
 </script>
 
@@ -72,7 +75,7 @@ const sendDataReviewToParent = () => {
             <button 
             class="btn" 
             id="button-style"
-            :class="{'disabled-button' : !reviewData.rating || !reviewData.description }"
+            :class="{'disabled-button' : !reviewData.rating || !reviewData.description || reviewData.description == '' }"
             @click="sendDataReviewToParent">
             <i class="bi bi-send-fill"></i>
             </button>

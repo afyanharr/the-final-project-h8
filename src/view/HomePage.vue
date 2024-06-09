@@ -84,7 +84,7 @@ const submitQuery = async (tempQueryParams) => {
 }
 
 const getDetail = async (id) => {
-  router.push({ name: 'Detail', params: { id: id }})
+  router.push({ name: 'Detail', params: { id: id }, query: {page: 1, show: 10}})
 }
 
 const submitSearch = async () => {

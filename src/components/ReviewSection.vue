@@ -3,7 +3,10 @@ import { ref, watch, onMounted } from 'vue';
 import EditReview from '../components/EditReview.vue'
 import { useHistoryStore } from '../stores/history';
 import Swal from 'sweetalert2'
+import { useRoute, useRouter } from 'vue-router'; 
 const useHistoryAPI = useHistoryStore();
+const route = useRoute()
+const router = useRouter()
 const props = defineProps({
     starsPreReview: Array,
     servicesDetail: Object,
@@ -14,6 +17,10 @@ const newData = ref(props.servicesDetail)
 const reviewData = ref({})
 const serviceId = ref(null)
 const getUserId = localStorage.getItem('userId')
+const scrollable = ref(null)
+const page = ref(1)
+// const currentPage = ref(newData.value.meta.currentPage)
+// const lastPage = ref(newData.value.meta.lastPage)
 
 watch(() => props.servicesDetail, (newValue) => {
     if (newValue) {
@@ -49,10 +56,28 @@ const reInitData = () => {
 }
 
 onMounted(() => {
+    console.log(newData)
 })
 
 const openEditModal = (data) => {
     reviewData.value = data
+}
+
+const handleScroll = async () => {
+    console.log(newData.value.meta.currentPage, 'current page')
+    console.log(newData.value.meta.lastPage, 'last page')
+    if (newData.value.data.reviews.length == props.servicesDetail.meta.total) {
+        return
+    } else {
+        const el = scrollable.value;
+        if (el.scrollHeight - el.clientHeight <= el.scrollTop) {
+            
+            page.value++
+            console.log(page.value)
+            router.push({query: {page: page.value}})
+            emit('reInitData', {page: page.value, show: 10})
+        }
+    }
 }
 </script>
 
@@ -62,7 +87,7 @@ const openEditModal = (data) => {
         <div class="mt-4">
             <h5>Apa Kata Mereka : </h5>
         </div>
-        <div class="container comment">
+        <div class="container comment" ref="scrollable" @scroll="handleScroll">
             <div class="d-flex justify-content-center align-items-center mt-5 pt-5 fw-bolder" v-if="newData.data.reviews.length < 1">
                 <p>Jadilah yang pertama berkomentar</p>
             </div>
@@ -99,8 +124,7 @@ const openEditModal = (data) => {
                         <i class="bi bi-trash-fill text-danger content-button content-button-icon"></i>
                         <p class="content-button text-button">Hapus komentar</p>
                     </button>
-                </div>
-                  
+                </div>               
             </div>
         </div>
     </div>

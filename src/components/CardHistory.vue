@@ -42,7 +42,7 @@ const getDetail = (id) => {
                 <div class="row">
                     <div class="row">
                         <div class="">
-                            <p class="card-text">Anda berkomentar pada {{ listReviews.services.name }}</p>
+                            <p class="card-title">Anda berkomentar pada {{ listReviews.services.name }}</p>
                             <!-- <i class="bi bi-star-fill stars-text"></i> -->
                             <div class="star-pre-review fs-2">
                                 <i v-for="(, index) in starsPreReview" :key="index" 
@@ -81,4 +81,11 @@ const getDetail = (id) => {
 .bi-star-fill {
     color: 	#ffa534 !important;
 }
+.card {
+    height: 220px
+}
+.card-text {
+    height: 20px
+}
+
 </style>

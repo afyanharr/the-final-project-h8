@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import serviceValidation from '../services/serviceValidations'
 import { useRoute } from 'vue-router'
 import axios from 'axios';
-const route = useRoute()
+
 
 export const useStoreAPI = defineStore('getAPIService', () => {
     const services = ref(null)
@@ -32,9 +32,21 @@ export const useStoreAPI = defineStore('getAPIService', () => {
             throw errorMessageFunction
         }
     }
-    const getServicesDetailData = async (id) => {
+    const getServicesDetailData = async (id, page) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_APP_DOMAIN}/services/${id}`);
+            let url = `${import.meta.env.VITE_APP_DOMAIN}/services/${id}`;
+            let getReqQuery;
+            if (!page) {
+                getReqQuery = {page: 1, show: 10}
+            } else {
+                getReqQuery = page
+            }
+            if (getReqQuery) {
+                const reqQuery = new URLSearchParams(getReqQuery).toString();
+                url +=`?${reqQuery}`
+            }
+            // const response = await axios.get(`${import.meta.env.VITE_APP_DOMAIN}/services/${id}`);
+            const response = await axios.get(url);
             // const response =  await fetch('data.json').then(response => response.json());
             const data = response.data
             if (data.code !== 200) {
