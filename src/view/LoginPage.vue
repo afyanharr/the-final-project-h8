@@ -74,7 +74,7 @@ const login = async () => {
 
 <template>
     <NavbarNonAuth />
-    <div class="container d-flex justify-content-center">
+    <div class="container d-flex justify-content-center login-page">
         <div class="card mt-4" style="width: 30rem;">
             <div class="mt-1 mb-2">
                 <div class="d-flex justify-content-center">
@@ -119,5 +119,11 @@ const login = async () => {
 
 * {
     font-family: "Roboto";
+}
+
+@media (max-width: 576px) {
+    .login-page {
+        height: 844px;
+    }
 }
 </style>

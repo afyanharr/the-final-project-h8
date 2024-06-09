@@ -70,7 +70,7 @@ onMounted(async () => {
 
 <template>
     <NavbarAuth/>
-    <div class="container-fluid">
+    <div class="container-fluid history-page">
         <div class="container">
             <h4 class="d-flex justify-content-center mt-5 mb-3">Riwayat ulasanmu ada disini</h4>
             <div class="row container d-flex up-content justify-content-end">
@@ -147,6 +147,11 @@ onMounted(async () => {
   overflow: hidden; 
   text-overflow: ellipsis;
   border: 1px solid #ccc;
+}
+@media (max-width: 576px) {
+    .history-page {
+        height: 844px;
+    }
 }
 </style>
 
