@@ -118,7 +118,7 @@ onMounted(async () => {
             <div class="row">
                 <img :src="servicesDetail.data.data.images[0].imageUrl" alt="main image" id="main-image" class="ps-3 pe-3">
             </div>
-            <div class="row justify-content-around ps-2 pe-">
+            <div class="row justify-content-around child-image-group">
                 <div class="col-md-3 ps-0 pe-0 pt-3 pb-0 d-flex justify-content-center">
                     <img :src="servicesDetail.data.data.images[1].imageUrl" alt="child image" class="child-image d-flex justify-content-center">
                 </div>
@@ -232,7 +232,7 @@ onMounted(async () => {
         height: auto;
     }
     .child-image {
-        width: 220px;
+        width: 300px;
         height: auto;
     }
 

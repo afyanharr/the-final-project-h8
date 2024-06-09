@@ -177,7 +177,7 @@ const countPaginate = async (params) => {
             <h5>Service tidak ditemukan</h5>
           </div>
         </div>        
-        <!-- card type 1
+        <!-- card type 1 not remove because there is stil option
           <div class="row container d-flex justify-content-center">
           <div v-if="services.data" v-for="service in services.data.data" :key="service.id" :to="{ name: 'Detail', params: { id: service.id } }" tag="div" class="card p-2 m-3 zoom shadow">
             <img src="https://www.apotek-k24.com/images/post/16777494720230211014631yunita.isnaciri-ciri%20pengusaha%20yang%20berhasil.jpg.webp" class="card-img-top" alt="Service Image">
@@ -190,13 +190,15 @@ const countPaginate = async (params) => {
         </div> -->
         <!-- card type 2 -->
         <div id="app" class="container">
-          <div class="row">
-            <div class="col-6 col-md-6 col-lg-2 mt-3" v-if="services.data" v-for="service in services.data.data" :key="service.id" :to="{ name: 'Detail', params: { id: service.id } }">
-              <div class="card card-style zoom p-1" @click="getDetail(service.id)">
+          <div class="row mt-4">
+            <div class="col-lg-2 col-6 mb-3" v-if="services.data" v-for="service in services.data.data" :key="service.id" :to="{ name: 'Detail', params: { id: service.id } }">
+              <div class="card card-style zoom p-1 d-flex" @click="getDetail(service.id)">
                 <img :src="service.imageUrl" class="card-img-top" alt="Service Image">
                 <div class="card-body">
-                  <h5 class="card-title">{{ service.name }}</h5>
-                  <p class="card-text">{{ service.address }}</p>
+                  <div class="title-container">
+                    <h5 class="card-title">{{ service.name }}</h5>
+                  </div>
+                  <p class="card-text">{{ service.serviceType.name }}</p>
                   <div class="star-review">
                     <i v-for="(, index) in starsPreReview" :key="index" 
                     :class="[index < service.rating ? 'bi-star-fill' : 'bi-star', 'me-2']"
@@ -242,8 +244,9 @@ const countPaginate = async (params) => {
   padding: 50px;
   transition: transform .1s;
   margin: 0 auto;
-  width: 12rem;
+  width: 10rem;
   text-decoration: none;
+  height: 80%;
 }
 
 .zoom:hover {
@@ -273,22 +276,23 @@ const countPaginate = async (params) => {
   cursor: pointer;
 }
 
-/* .card-style {
-  width: 13rem;
-} */
+.card-style {
+  height: 100%;
+}
 
 .card-title {
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis;
-  width: 150px; 
-  /* border: 1px solid #ccc; */
+  width: 120px; 
+}
+.title-container {
+  height: 90px;
 }
 
 .card-text {
-  overflow: hidden;
   text-overflow: ellipsis;
-  width: 150px; 
+  width: 110px;
+  max-height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .bi-star-fill {
@@ -296,11 +300,11 @@ const countPaginate = async (params) => {
 }
 
 .star-review {
-  font-size: 20px;
+  font-size: 15px;
 }
-/* .card-img-top {
-  wi
-} */
+.card-img-top {
+  max-height: 88px
+}
 .filter-and-sort-text {
   white-space: nowrap; 
   overflow: hidden; 
@@ -314,19 +318,20 @@ const countPaginate = async (params) => {
     width: auto;
   }
   .card-title {
-    white-space: nowrap; 
+    /* white-space: nowrap;  */
     overflow: hidden; 
     text-overflow: ellipsis;
     width: 100px; 
     /* border: 1px solid #ccc; */
   }
-  .card-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100px; 
-  }
   .star-review {
     font-size: 10px;
+  }
+  .title-container {
+    height: 120px;
+  }
+  .card-img-top {
+    max-height: 85px
   }
 }
 </style>

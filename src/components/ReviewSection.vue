@@ -58,51 +58,50 @@ const openEditModal = (data) => {
 
 <template>
 <div class="row mt-3" v-if="servicesDetail">
-    <div class="col-md-6 ms-2 me-2">
+    <div class="col-md-6">
         <div class="mt-4">
             <h5>Apa Kata Mereka : </h5>
         </div>
         <div class="container comment">
             <div class="d-flex justify-content-center align-items-center mt-5 pt-5 fw-bolder" v-if="newData.data.reviews.length < 1">
-                <p>Belum ada komentar</p>
+                <p>Jadilah yang pertama berkomentar</p>
             </div>
-            <div class="row mt-3" v-for="servicesDetail in newData.data.reviews" :key="servicesDetail.id">
-                <div class="col-md-2">
-                    <img :src="servicesDetail.user.imageUrl" alt="image dummy" class="mt-3" style ="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;">
-                </div>
-                <div class="col-md-10">
+            <div v-for="servicesDetail in newData.data.reviews" :key="servicesDetail.id">
+                <div class="row mt-3 user-comment d-flex">
+                    <div class="image-content">
+                        <img :src="servicesDetail.user.imageUrl" alt="image dummy" class="mt-3 image-user">
+                    </div>
                     <div class="row">
-                        <div class="col-md-8">
-                            <b>{{ servicesDetail.user.username }}</b>
+                        <b>{{ servicesDetail.user.username }}</b>
+                        <div class="star-pre-review fs-2">
+                            <i v-for="(, index) in props.starsPreReview" :key="index" 
+                            :class="[index+1 <= servicesDetail.rating ? 'bi-star-fill' : 'bi-star', 'me-2']"
+                            ></i>
+                        </div>
+                        <div class="description-comment">
+                            <p clas="fw-lighter desc-comment">{{ servicesDetail.description }}</p>
                         </div>
                     </div>               
-                    <div class="star-pre-review fs-2">
-                        <i v-for="(, index) in props.starsPreReview" :key="index" 
-                        :class="[index+1 <= servicesDetail.rating ? 'bi-star-fill' : 'bi-star', 'me-2']"
-                        ></i>
-                    </div>
-                    <div class="row">
-                        <p clas="fw-lighter">{{ servicesDetail.description }}</p>
-                    </div>
-                    <div class="row action-section" v-if="servicesDetail.userId == getUserId">
-                        <button type="button" class="button-edit" data-bs-target="#exampleModal" @click="openEditModal(servicesDetail)">
-                            <i class="bi bi-pen-fill text-primary content-button"></i>
-                            <p class="content-button text-button">Edit Komentar</p>
-                        </button>
-                        <EditReview 
-                            :reviewData="reviewData"
-                            :starsPreReview="starsPreReview"
-                            :services-detail="servicesDetail"
-                            :serviceId="serviceId"
-                            @reInitData="reInitData"
-                        />
-                        <button type="button" class="button-delete" data-bs-target="#exampleModal1" @click="deleteComment(servicesDetail.id, servicesDetail.userId)">
-                            <i class="bi bi-trash-fill text-danger content-button content-button-icon"></i>
-                            <p class="content-button text-button">Hapus komentar</p>
-                        </button>
-                    </div>
                 </div>
-            </div>  
+                <div class="row action-section" v-if="servicesDetail.userId == getUserId">
+                    <button type="button" class="button-edit" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="openEditModal(servicesDetail)">
+                        <i class="bi bi-pen-fill text-primary content-button"></i>
+                        <p class="content-button text-button">Edit Komentar</p>
+                    </button>
+                    <EditReview 
+                        :reviewData="reviewData"
+                        :starsPreReview="starsPreReview"
+                        :services-detail="servicesDetail"
+                        :serviceId="serviceId"
+                        @reInitData="reInitData"
+                    />
+                    <button type="button" class="button-delete" data-bs-target="#exampleModal1" @click="deleteComment(servicesDetail.id, servicesDetail.userId)">
+                        <i class="bi bi-trash-fill text-danger content-button content-button-icon"></i>
+                        <p class="content-button text-button">Hapus komentar</p>
+                    </button>
+                </div>
+                  
+            </div>
         </div>
     </div>
 </div>
@@ -195,6 +194,7 @@ const openEditModal = (data) => {
 .action-section {
     display: flex;
     flex-direction: row-reverse;
+    flex-wrap: nowrap;
 }
 .text-button {
     margin-top: 15px;
@@ -214,5 +214,41 @@ const openEditModal = (data) => {
 .button-edit:hover .bi-pen-fill {
     color: white !important;
 }
+.user-comment {
+    display: flex;
+    flex-wrap: nowrap;
+}
 
+.image-content {
+    width: 100px
+}
+.description-comment {
+    max-width: 420px;
+}
+.image-user {
+    width: 70px; 
+    height: 70px; 
+    border-radius: 50%; 
+    object-fit: cover;
+}
+@media (max-width: 576px) {
+    .comment {
+        overflow-y: scroll; 
+        height:600px;
+        /* background-color: #f0f0f0;
+        padding: 20px; */
+        border: 2px solid #333;
+        /* /* box-shadow: 5px 5px; */
+    }
+    .profile-comment {
+        display: flex;
+        flex-direction: row;
+    }
+    .image-content {
+        display: inline-block;
+    }
+    .description-comment {
+        max-width: 250px;
+    }
+}
 </style>

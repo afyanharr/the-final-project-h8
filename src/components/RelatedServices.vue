@@ -58,12 +58,13 @@ const getDetail = async (id) => {
             <div class="row">
                 <h3>Layanan Serupa</h3>
             </div>
-            <div class="row" v-if="servicesRelated">
-                <div class="card p-2 m-3 zoom shadow" v-for="relatedService in servicesRelated.data" :key="relatedService.id" :to="{ name: 'Detail', params: { id: relatedService.id } }" style="width: 12rem; text-decoration: none;" @click="getDetail(relatedService.id)">
+            <div class="row content" v-if="servicesRelated">
+                <div class="card p-2 m-3 zoom shadow" v-for="relatedService in servicesRelated.data" :key="relatedService.id" :to="{ name: 'Detail', params: { id: relatedService.id } }"  @click="getDetail(relatedService.id)">
                 <img :src="relatedService.imageUrl" class="card-img-top" alt="Service Image">
                 <div class="card-body">
-                    <h5 class="card-title">{{ relatedService.name }}</h5>
-                    <p class="card-text">{{ relatedService.address }}</p>
+                    <div class="title-container">
+                        <h5 class="card-title">{{ relatedService.name }}</h5>
+                    </div>
                     <div class="star-review">
                     <i v-for="(, index) in starsPreReview" :key="index" 
                     :class="[index < relatedService.rating ? 'bi-star-fill' : 'bi-star', 'me-2']"
@@ -87,22 +88,22 @@ const getDetail = async (id) => {
 }
 
 .card-title {
-  white-space: nowrap; 
   overflow: hidden; 
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   width: 150px; 
   /* border: 1px solid #ccc; */
 }
 
 .card-text {
   overflow: hidden;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   width: 150px; 
 }
 
-
 .zoom {
   transition: transform .1s;
+  width: 12rem; 
+  text-decoration: none;
 }
 
 .zoom:hover {
@@ -114,5 +115,37 @@ const getDetail = async (id) => {
 
 .bi-star-fill {
   color: 	#ffa534 !important;
+}
+
+.title-container {
+  height: 90px;
+}
+
+.card-img-top {
+  max-height: 90px
+}
+
+@media (max-width: 576px) {
+    .content {
+        justify-content: center;
+    }
+    .zoom {
+        transition: transform .1s;
+        width: 10rem; 
+        text-decoration: none;
+    }
+    .card-title {
+        overflow: hidden; 
+        width: 100px; 
+    }
+    .star-review {
+        font-size: 10px;
+    }
+    .title-container {
+        height: 120px;
+    }
+    .card-img-top {
+        max-height: 85px
+    }
 }
 </style>
