@@ -56,7 +56,6 @@ const reInitData = () => {
 }
 
 onMounted(() => {
-    console.log(newData)
 })
 
 const openEditModal = (data) => {
@@ -64,16 +63,12 @@ const openEditModal = (data) => {
 }
 
 const handleScroll = async () => {
-    console.log(newData.value.meta.currentPage, 'current page')
-    console.log(newData.value.meta.lastPage, 'last page')
     if (newData.value.data.reviews.length == props.servicesDetail.meta.total) {
         return
     } else {
         const el = scrollable.value;
-        if (el.scrollHeight - el.clientHeight <= el.scrollTop) {
-            
+        if (el.scrollHeight - el.clientHeight <= el.scrollTop) {         
             page.value++
-            console.log(page.value)
             router.push({query: {page: page.value}})
             emit('reInitData', {page: page.value, show: 10})
         }
