@@ -94,7 +94,6 @@ const submitReview = async (data) => {
 
 const fetchData = async (reqQuery) =>  {
     try {
-        console.log('ini reqQuery', reqQuery)
         if (reqQuery) {
             if (reqQuery.page !== 1) {
                 const newData = await getAPIService.getServicesDetailData(route.params.id, reqQuery);
