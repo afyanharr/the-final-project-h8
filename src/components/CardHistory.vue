@@ -49,7 +49,7 @@ const getDetail = (id) => {
                                 :class="[index+1 <= listReviews.rating ? 'bi-star-fill' : 'bi-star', 'me-2']"
                                 ></i>
                             </div>
-                            <p class="card-text">{{ listReviews.description }}</p>
+                            <p class="card-text-history">{{ listReviews.description }}</p>
                             <!-- <router-link :to="{ name: 'Detail' , params : {id : listReviews.service }}" tag="nav-link" class="nav-link active d-flex justify-content-end">
                                 lihat
                             </router-link> -->
@@ -84,8 +84,15 @@ const getDetail = (id) => {
 .card {
     height: 220px
 }
-.card-text {
-    height: 20px
+.card-text-history {
+    /* height: 20px;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 </style>

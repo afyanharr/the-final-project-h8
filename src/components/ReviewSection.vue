@@ -63,14 +63,22 @@ const openEditModal = (data) => {
 }
 
 const handleScroll = async () => {
-    if (newData.value.data.reviews.length == props.servicesDetail.meta.total) {
+    // if (newData.value.data.reviews.length == props.servicesDetail.meta.total) {
+    // if (props.servicesDetail.meta.currentPage == props.servicesDetail.meta.lastPage) {
+       if (props.servicesDetail.meta.nextPage == null) {
         return
     } else {
         const el = scrollable.value;
-        if (el.scrollHeight - el.clientHeight <= el.scrollTop) {         
-            page.value++
-            router.push({query: {page: page.value}})
-            emit('reInitData', {page: page.value, show: 10})
+        if (el.scrollHeight - el.clientHeight <= el.scrollTop) {           
+            if (props.servicesDetail.meta.nextPage !== null) {
+                page.value++
+                router.push({query: {page: page.value}})
+                emit('reInitData', {page: page.value, show: 10})
+            } else {
+                router.push({query: {page: page.value}})
+                emit('reInitData', {page: page.value, show: newData.value.data.reviews.length})
+            }
+
         }
     }
 }

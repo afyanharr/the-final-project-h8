@@ -201,7 +201,7 @@ const countPaginate = async (params) => {
                   <p class="card-text">{{ service.serviceType.name }}</p>
                   <div class="star-review">
                     <i v-for="(, index) in starsPreReview" :key="index" 
-                    :class="[index < service.rating ? 'bi-star-fill' : 'bi-star', 'me-2']"
+                    :class="[index < Math.round(service.rating) ? 'bi-star-fill' : 'bi-star', 'me-2']"
                     ></i>
                   </div>
                 </div>

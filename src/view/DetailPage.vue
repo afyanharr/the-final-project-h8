@@ -94,17 +94,19 @@ const submitReview = async (data) => {
 
 const fetchData = async (reqQuery) =>  {
     try {
-
+        console.log('ini reqQuery', reqQuery)
         if (reqQuery) {
             if (reqQuery.page !== 1) {
                 const newData = await getAPIService.getServicesDetailData(route.params.id, reqQuery);
                 servicesDetail.value.data.data.reviews = servicesDetail.value.data.data.reviews.concat(newData.data.data.reviews)
+                servicesDetail.value.data.meta = newData.data.meta
             }
         } else {
             servicesDetail.value = await getAPIService.getServicesDetailData(route.params.id, reqQuery);
+            servicesRelated.value = await getAPIService.getRelatedServices(route.params.id)
         }
 
-        servicesRelated.value = await getAPIService.getRelatedServices(route.params.id)
+
     } catch (error) {
         errorMessage.value = 'Service Tidak ditemukan'
     }
