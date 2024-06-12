@@ -284,10 +284,11 @@ const countPaginate = async (params) => {
 }
 
 .card-title {
-  width: 120px; 
+  width: 120px;
+  font-size: 16px;
 }
 .title-container {
-  height: 90px;
+  height: 70px;
 }
 
 .card-text {
@@ -296,6 +297,7 @@ const countPaginate = async (params) => {
   max-height: 50px;
   overflow: hidden;
   white-space: nowrap;
+  font-size: 16px;
 }
 
 .bi-star-fill {

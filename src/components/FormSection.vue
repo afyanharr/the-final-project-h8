@@ -55,7 +55,7 @@ const sendDataReviewToParent = () => {
 <template>
 <div class="row mt-3 ms-3 me-3 box-comment">
     <div class="row">
-        <h5>Berikan Ulasanmu</h5>
+        <p>Berikan Ulasanmu</p>
     </div>
     <div class="row">
         <textarea id="w3review" name="w3review" rows="4" cols="50" v-model="reviewData.description"></textarea>
@@ -65,7 +65,7 @@ const sendDataReviewToParent = () => {
             <p class="text-danger">*harap isi komentar dengan rating</p>
         </div>
         <div class="star-and-button ps-0 pe-0 mt-3">
-            <h5 id="rating-text">Rating: </h5>
+            <p id="rating-text">Rating: </p>
             <div class="star-pre-review fs-2" id="stars-button">
                 <i v-for="(star, index) in starsPreReview" :key="index" 
                 :class="[star.active ? 'bi-star-fill' : 'bi-star', 'me-2']"
@@ -137,6 +137,10 @@ const sendDataReviewToParent = () => {
 #rating-text {
     margin-top: 12px;
     margin-right: 12px;
+    font-weight: bold;
+}
+p {
+    font-size: 16px;
 }
 
 @media (max-width: 576px) {
@@ -149,6 +153,6 @@ const sendDataReviewToParent = () => {
         margin-right: 30px;
         font-size: 18px !important;
         margin-top: 10px;
-}
+    }
 }
 </style>

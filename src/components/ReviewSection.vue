@@ -88,7 +88,7 @@ const handleScroll = async () => {
 <div class="row mt-3" v-if="servicesDetail">
     <div class="col-md-6">
         <div class="mt-4">
-            <h5>Apa Kata Mereka : </h5>
+            <p id="title-review">Apa Kata Mereka : </p>
         </div>
         <div class="container comment" ref="scrollable" @scroll="handleScroll">
             <div class="d-flex justify-content-center align-items-center mt-5 pt-5 fw-bolder" v-if="newData.data.reviews.length < 1">
@@ -258,6 +258,13 @@ const handleScroll = async () => {
     border-radius: 50%; 
     object-fit: cover;
 }
+p {
+    font-size: 16px;
+}
+#title-review {
+    font-size: 20px;
+}
+
 @media (max-width: 576px) {
     .comment {
         overflow-y: scroll; 

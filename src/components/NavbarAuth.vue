@@ -35,7 +35,7 @@ const getUsername = localStorage.getItem('username')
         </li>
         <li class="nav-item" v-if="getId">
           <router-link :to="{ name: 'History', params: {id : getId}, query: {page: 1, show: 12}}" tag="button" class="nav-link active">
-            History
+            Riwayat
           </router-link>
         </li>
       </ul>
