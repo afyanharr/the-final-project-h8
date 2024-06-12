@@ -22,7 +22,9 @@ const getUsername = localStorage.getItem('username')
 <template>
 <nav class="navbar navbar-expand-lg bg-body-tertiary" id="NavbarAuth">
   <div class="container">
-    <a class="navbar-brand text-blue" href="#">H8GroupConnect</a>
+    <router-link :to="{ name: 'Services', query: {order : 'desc'}}" tag="button" class="navbar-brand text-blue" id="logo">
+      H8GroupConnect
+    </router-link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
