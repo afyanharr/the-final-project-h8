@@ -157,8 +157,8 @@ const countPaginate = async (params) => {
                     <li><a class="dropdown-item" href="#" @click="updateQuerySort('name', 'asc', 'A-Z')" >A-Z</a></li>
                     <li><a class="dropdown-item" href="#" @click="updateQuerySort('name', 'desc', 'Z-A')" >Z-A</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#" @click="updateQuerySort('rating', 'asc' , 'Rating Tertinggi')" >Rating Tertinggi</a></li>
-                    <li><a class="dropdown-item" href="#" @click="updateQuerySort('rating', 'desc', 'Rating Terendah')" >Rating Terendah</a></li>
+                    <li><a class="dropdown-item" href="#" @click="updateQuerySort('rating', 'desc' , 'Rating Tertinggi')" >Rating Tertinggi</a></li>
+                    <li><a class="dropdown-item" href="#" @click="updateQuerySort('rating', 'asc', 'Rating Terendah')" >Rating Terendah</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#" @click="updateQuerySort('updatedAt', 'asc', 'Terbaru')" >Terbaru</a></li>
                     <li><a class="dropdown-item" href="#" @click="updateQuerySort('createdAt', 'asc', 'Terlama')" >Terlama</a></li>
