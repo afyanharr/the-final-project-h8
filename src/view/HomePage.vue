@@ -333,7 +333,7 @@ const countPaginate = async (params) => {
     font-size: 10px;
   }
   .title-container {
-    height: 120px;
+    height: 80px;
   }
   .card-img-top {
     max-height: 85px
